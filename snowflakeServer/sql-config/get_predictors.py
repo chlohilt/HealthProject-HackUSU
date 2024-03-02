@@ -31,10 +31,10 @@ def get_predictors(column_names, rows, trait):
                 curr_trait.pop(j - values_popped)
                 values_popped += 1
                 continue
-            elif curr_val == 'Y' or curr_val == "F":
+            elif curr_val == 'Y':
                 curr_val = 1
                 curr_col.append(curr_val)
-            elif curr_val == 'N' or curr_val == "M":
+            elif curr_val == 'N':
                 curr_val = 0
                 curr_col.append(curr_val)
             else:
@@ -44,8 +44,6 @@ def get_predictors(column_names, rows, trait):
             bad_columns.append(column)
             continue
         correlation_coefficient, p_value = pearsonr(curr_col, curr_trait)
-        if np.isnan(correlation_coefficient):
-            print("nan", i, j)
         if abs(correlation_coefficient) > .8 and p_value < 0.05:
             predictors.append(column)
             correlation_coefficients.append(correlation_coefficient)
