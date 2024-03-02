@@ -44,8 +44,6 @@ def get_predictors(column_names, rows, trait):
             bad_columns.append(column)
             continue
         correlation_coefficient, p_value = pearsonr(curr_col, curr_trait)
-        if np.isnan(correlation_coefficient):
-            print("nan", i, j)
         if abs(correlation_coefficient) > .8 and p_value < 0.05:
             predictors.append(column)
             correlation_coefficients.append(correlation_coefficient)
