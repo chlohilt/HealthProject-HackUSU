@@ -9,9 +9,10 @@
 		<!-- App Bar -->
 		<AppBar>
 			<svelte:fragment slot="lead">
-				<strong class="text-xl uppercase">FIT FORECAST</strong>
+				<a href="/"><strong class="text-xl uppercase">WELLNESS WIZARD</strong></a>
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
+				<p class="font-redHat font-semibold">Contributors:</p>
 				<a
 					class="btn btn-sm variant-ghost-surface"
 					href="https://www.linkedin.com/in/chloe-hilton-720016204/"
