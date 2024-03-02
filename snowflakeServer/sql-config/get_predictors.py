@@ -3,6 +3,7 @@ from scipy.stats import pearsonr
 
 bad_columns = ["HWD_WELLTH_GENERATION_CODE_V7", "HWD_WELLTH_ABILITY_TO_PAY_V7", "HWD_WELLTH_V7"]
 
+
 def get_predictors(column_names, rows, trait):
     # column_names: list of column names from the table
     # rows: list of tuples, each index within the tuples correlates to the column name at the same index
@@ -55,11 +56,14 @@ def get_predictors(column_names, rows, trait):
             predictors.remove(predictor)
     return predictors, correlation_functions, correlation_coefficients
 
+
 def main():
     test_columns = ["obesity", "exercise"]
     test_rows = [(10, 2), (2, 5), (3, 5), (3, 4)]
     predictors, functions, ccs = get_predictors(test_columns, test_rows, "obesity")
     print(predictors)
     print(functions[0](2))
+
+
 if __name__ == "__main__":
     main()

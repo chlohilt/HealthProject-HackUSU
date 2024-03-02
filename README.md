@@ -4,7 +4,7 @@
 
 ### Teammates
 
-- [Savannah Hilton](https://savcode.co)
+- [Savannah Everett](https://savcode.co)
 - [Chloe Hilton](https://www.linkedin.com/in/chloe-hilton-720016204/)
 - [Eden Barlow](https://www.linkedin.com/in/eden-barlow-675a212b7/)
 
