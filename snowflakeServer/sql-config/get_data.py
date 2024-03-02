@@ -1,7 +1,7 @@
 import snowflake.connector
 import json
 
-# Function to read Snowflake configuration from JSON file
+
 def read_snowflake_config(file_path):
     with open(file_path, 'r') as config_file:
         return json.load(config_file)
@@ -47,5 +47,3 @@ def connect_to_snowflake():
     con.close()
 
     return column_names, results, "HWD_DIABETES_TYPE_2_CENTILE_V7"
-
-connect_to_snowflake()
