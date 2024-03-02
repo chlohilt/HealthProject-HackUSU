@@ -28,7 +28,7 @@ def get_predictors(column_names, rows, trait):
                 curr_col.append(curr_val)
         correlation_coefficient = np.corrcoef(curr_col, curr_trait)[0, 1]
         if abs(correlation_coefficient) > .7:
-            predictors.append(f"column")
+            predictors.append(column)
     return predictors
 
 test_columns = ["obesity", "exercise"]
