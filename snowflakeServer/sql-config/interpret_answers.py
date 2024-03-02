@@ -1,4 +1,4 @@
-def interperet_answers(responses, correlation_functions, correlation_coefficients):
+def interpret_answers(responses, correlation_functions, correlation_coefficients):
     sum = 0
     answers = []
     questions = []
