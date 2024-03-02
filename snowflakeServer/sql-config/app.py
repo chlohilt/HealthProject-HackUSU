@@ -40,15 +40,12 @@ def get_questions():
 
 @app.route('/calculate-percentage', methods=['POST'])
 def calculate_percentage():
-    print("getting answers")
     answers = request.json['answers']
-    print(answers)
     percentage, top_3_answers = interperet_answers(answers, functions, correlation_coefficients)
-    print("top3", top_3_answers)
     display_top_3 = "Your top 3 traits that contribute to your likelyhood to suffer from Type 2 Diabetes are:\n"
     for answer in top_3_answers:
         display_top_3 += f"{answer}\n"
-    return jsonify({"percentage": round(percentage, 2)})
+    return jsonify({"percentage": round(percentage, 2), "top_3_string": display_top_3})
 
 
 if __name__ == '__main__':
