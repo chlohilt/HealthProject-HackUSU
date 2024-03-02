@@ -7,7 +7,7 @@ from get_data import connect_to_snowflake
 from interperet_answers import interperet_answers
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, origins='*')
 
 predictors, functions, correlation_coefficients = get_predictors(*connect_to_snowflake())
 
@@ -41,7 +41,8 @@ def get_questions():
 @app.route('/calculate-percentage', methods=['POST'])
 def calculate_percentage():
     answers = request.json['answers']
-    percentage = interperet_answers(answers)
+    print(answers)
+    percentage = interperet_answers(answers, functions, correlation_coefficients)
     return jsonify({"percentage": round(percentage, 2)})
 
 
