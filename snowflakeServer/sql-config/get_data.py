@@ -1,5 +1,6 @@
 import snowflake.connector
 import json
+import get_predictors
 
 # Function to read Snowflake configuration from JSON file
 def read_snowflake_config(file_path):
@@ -30,13 +31,15 @@ def connect_to_snowflake():
 
     # Dynamically select the database name from snowflake_config
     database_name = snowflake_config['database']
-    table_name = snowflake_config['table']
+    table1_name = snowflake_config['table']
+
+    trait_column = "HWD_DIABETES_TYPE_2_CENTILE_V7"
 
     # Execute SQL queries with the dynamically selected database name
-    cursor.execute(f"SHOW COLUMNS IN TABLE {database_name}.{table_name}")
+    cursor.execute(f"SHOW COLUMNS IN TABLE {database_name}.{table1_name}")
     columns = cursor.fetchall()
     column_names = [column[2] for column in columns]
-    cursor.execute(f"SELECT * FROM {database_name}.{table_name} WHERE HWD_DIABETES_TYPE_2_CENTILE_V7 IS NOT NULL;")
+    cursor.execute(f"SELECT * FROM {database_name}.{table1_name} WHERE {trait_column} IS NOT NULL;")
     # Fetch results
     results = cursor.fetchall()
 
@@ -45,3 +48,5 @@ def connect_to_snowflake():
     con.close()
 
     return column_names, results, "HWD_DIABETES_TYPE_2_CENTILE_V7"
+
+connect_to_snowflake()
