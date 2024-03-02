@@ -50,7 +50,10 @@ def get_predictors(column_names, rows, trait):
             line_of_best_fit = np.polyfit(curr_col, curr_trait, 1)
             correlation_function = np.poly1d(line_of_best_fit)
             correlation_functions.append(correlation_function)
-    return (predictors, correlation_functions, correlation_coefficients)
+    for predictor in predictors:
+        if "QUINTILE" in predictor:
+            predictors.remove(predictor)
+    return predictors, correlation_functions, correlation_coefficients
 
 def main():
     test_columns = ["obesity", "exercise"]

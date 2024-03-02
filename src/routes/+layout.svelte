@@ -9,7 +9,7 @@
 		<!-- App Bar -->
 		<AppBar>
 			<svelte:fragment slot="lead">
-				<strong class="text-xl uppercase">FIT FORCAST</strong>
+				<strong class="text-xl uppercase">FIT FORECAST</strong>
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
 				<a
@@ -22,7 +22,7 @@
 				</a>
 				<a
 					class="btn btn-sm variant-ghost-surface"
-					href="https://www.uvu.edu/directory/employee/?id=cXVIUnNvbzRCbUVJNUttenNpRm5Ldz09"
+					href="https://www.linkedin.com/in/eden-barlow-675a212b7/"
 					target="_blank"
 					rel="noreferrer"
 				>
