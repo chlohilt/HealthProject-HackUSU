@@ -8,7 +8,7 @@ def interperet_answers(responses, correlation_functions, correlation_coefficient
 
     weighted_values = []
     for i in range(len(answers)):
-        value = correlation_functions[i](answers[i])
+        value = correlation_functions[i](int(answers[i]))
         if value > 100:
             value = 100
         elif value < 0:

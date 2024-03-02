@@ -40,6 +40,7 @@ def get_questions():
 
 @app.route('/calculate-percentage', methods=['POST'])
 def calculate_percentage():
+    print("getting answers")
     answers = request.json['answers']
     print(answers)
     percentage, top_3_answers = interperet_answers(answers, functions, correlation_coefficients)
