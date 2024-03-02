@@ -14,7 +14,7 @@ def get_predictors(column_names, rows, trait):
         curr_col = []
         for row in rows:
             curr_val = row[i]
-            if curr_val == None:
+            if curr_val is None:
                 curr_trait.pop(i)
                 continue
             elif curr_val == 'Y':

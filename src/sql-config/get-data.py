@@ -1,5 +1,6 @@
 import snowflake.connector
 import json
+import get_predictors
 
 # Function to read Snowflake configuration from JSON file
 def read_snowflake_config(file_path):
@@ -37,19 +38,17 @@ def connect_to_snowflake():
     columns = cursor.fetchall()
     column_names = [column[2] for column in columns]
     print(column_names)
-    cursor.execute(f"SELECT * FROM {database_name}.{table_name} LIMIT 100;")
+    cursor.execute(f"SELECT * FROM {database_name}.{table_name} WHERE HWD_DIABETES_TYPE_2_CENTILE_V7 IS NOT NULL;")
 
     # Fetch results
     results = cursor.fetchall()
-
-    # Print results
-    for row in results:
-        print(row)
 
     # Close the cursor and connection
     cursor.close()
     con.close()
 
-    return column_names, results
+    get_predictors.get_predictors(column_names, results, "HWD_DIABETES_TYPE_2_CENTILE_V7")
+
+    return column_names, results, "HWD_DIABETES_TYPE_2_CENTILE_V7"
 
 connect_to_snowflake()
