@@ -5,7 +5,7 @@ def get_predictors(column_names, rows, trait):
     # rows: list of tuples, each index within the tuples correlates to the column name at the same index
     # trait: string that matches a column name. This is the trait we are focusing on and looking for predictors of
     curr_trait = [row[column_names.index(trait)] for row in rows]
-    predictors = {}
+    predictors = []
     for i in range(len(column_names)):
         column = column_names[i]
         # check that we're not comparing the trait to itself
