@@ -15,13 +15,17 @@ def get_predictors(column_names, rows, trait):
         for row in rows:
             try:
                 curr_val = int(row[i])
-            except ValueError:
-                continue
-            # check that values are not NULL so that they aren't tried to be compared
-            if curr_val == None:
-                curr_trait.pop(i)
-            else:
                 curr_col.append(curr_val)
+            except ValueError:
+                # if the value is NULL, it can't be compared
+                if curr_val == None:
+                    curr_trait.pop(i)
+                elif curr_val == 'Y':
+                    curr_val = 1
+                    curr_col.append(curr_val)
+                elif curr_val == 'N':
+                    curr_val = 0
+                    curr_col.append(curr_val)
         correlation_coefficient = np.corrcoef(curr_col, curr_trait)[0, 1]
         if abs(correlation_coefficient) > .7:
             predictors.append(f"column")
