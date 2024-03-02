@@ -7,7 +7,8 @@ def get_predictors(column_names, rows, trait):
     # rows: list of tuples, each index within the tuples correlates to the column name at the same index
     # trait: string that matches a column name. This is the trait we are focusing on and looking for predictors of
     predictors = []
-    weighted_sums = {}
+    correlation_functions = []
+    correlation_coefficients = []
 
     for i in range(len(column_names)):
         curr_trait = [row[column_names.index(trait)] for row in rows]
@@ -42,15 +43,17 @@ def get_predictors(column_names, rows, trait):
             print("nan", i, j)
         if abs(correlation_coefficient) > .9:
             predictors.append(column)
-            # weight = abs(correlation_coefficient)
-            # weighted_sum = weight * np.corrcoef(curr_col, curr_trait)[0, 1]
-            # weighted_sums[column] = weighted_sum
-    return predictors
+            correlation_coefficients.append(correlation_coefficient)
+            line_of_best_fit = np.polyfit(curr_col, curr_trait, 1)
+            correlation_function = np.poly1d(line_of_best_fit)
+            correlation_functions.append(correlation_function)
+    return (predictors, correlation_functions, correlation_coefficients)
 
 def main():
     test_columns = ["obesity", "exercise"]
-    test_rows = [(10, 2), (2, 7), (3, 5), (3, 6)]
-    print(get_predictors(test_columns, test_rows, "obesity"))
-
+    test_rows = [(10, 2), (2, 5), (3, 5), (3, 4)]
+    predictors, functions = get_predictors(test_columns, test_rows, "obesity")
+    print(predictors)
+    print(functions[0](2))
 if __name__ == "__main__":
     main()
