@@ -5,10 +5,14 @@ def get_predictors(column_names, rows, trait):
     # rows: list of tuples, each index within the tuples correlates to the column name at the same index
     # trait: string that matches a column name. This is the trait we are focusing on and looking for predictors of
     predictors = []
+    weighted_sums = {}
+
     for i in range(len(column_names)):
         curr_trait = [row[column_names.index(trait)] for row in rows]
         values_popped = 0
         column = column_names[i]
+        if (column == "HWD_WELLTH_GENERATION_CODE_V7" or column == "HWD_WELLTH_ABILITY_TO_PAY_V7" or column == "HWD_WELLTH_V7"):
+            continue
         # check that we're not comparing the trait to itself
         if column == trait or column == "PID":
             continue
@@ -33,6 +37,9 @@ def get_predictors(column_names, rows, trait):
             print("nan", i, j)
         if abs(correlation_coefficient) > .7:
             predictors.append(column)
+        weight = abs(correlation_coefficient)
+        weighted_sum = weight * np.corrcoef([row[i] for row in rows], curr_trait)[0, 1]
+        weighted_sums[column] = weighted_sum
     return predictors
 
 def main():
