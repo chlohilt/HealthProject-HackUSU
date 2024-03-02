@@ -31,5 +31,5 @@ We utilized the HealthWise360 DataSet through [Snowflake's Database](https://www
  Unfortunately, the project will only be working during our 30-day free trial begun today on 3/2/2024 since we won't be paying for it in the future.
 
 ### Pictures of the Team :)
-![IMG_8685.JPG](teamPics%2FIMG_8685.JPG)
-![IMG_8754.JPG](teamPics%2FIMG_8754.JPG)
+<img src="teamPics/IMG_8685.JPG" width="300" alt="Close up pic of the team">
+<img src="teamPics/IMG_8754.JPG" width="500" alt="Pic of the team with 'Dare Mighty Things' sign">
