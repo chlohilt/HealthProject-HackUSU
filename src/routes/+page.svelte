@@ -1,22 +1,29 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { fade } from 'svelte/transition';
+	import { writable } from 'svelte/store';
+
 	interface Question {
 		id: number;
 		text: string;
+		type: 'centile' | 'yesOrNo';
 	}
 
+	let stage = writable(0); // 0: welcome, 1: questions, 2: result
 	let questions: Question[] = [];
 	let answers: { [key: number]: number } = {};
+	let percentage: number;
 
-	onMount(async () => {
+	async function fetchQuestions() {
 		const response = await fetch('http://localhost:5700/get-questions');
 		questions = await response.json();
+		console.log(questions);
 		questions.forEach((question) => {
 			answers[question.id] = 5; // Default rating
 		});
-	});
+		stage.set(1); // Move to questions stage
+	}
 
-	async function submitAnswers(): Promise<void> {
+	async function submitAnswers() {
 		const response = await fetch('http://localhost:5700/calculate-percentage', {
 			method: 'POST',
 			headers: {
@@ -24,45 +31,48 @@
 			},
 			body: JSON.stringify({ answers })
 		});
-		console.log(answers);
 		const result = await response.json();
-		alert(`Your score is: ${result.percentage}%`);
+		percentage = result.percentage;
+		stage.set(2); // Move to result stage
 	}
 </script>
 
-<form on:submit|preventDefault={submitAnswers}>
-	{#each questions as { id, text }}
-		<div>
-			<label for={id.toString()}>{text}</label>
-			<input type="range" min="1" max="10" bind:value={answers[id]} id={id.toString()} />
-			<span>{answers[id]}</span>
+{#if $stage === 0}
+	<div transition:fade={{ duration: 300 }} class="flex flex-col items-center gap-5 m-10">
+		<h1 class="h1">Welcome Fit Friend!</h1>
+		<h2 class="h2">Let's check the probability of you developing diabetes type 2</h2>
+		<button on:click={fetchQuestions} class="btn variant-filled-primary btn-lg">Next</button>
+	</div>
+{:else if $stage === 1}
+	<h1 class="h1 text-center m-10">Type 2 Diabetes Predictive Questions</h1>
+
+	<form
+		on:submit|preventDefault={submitAnswers}
+		transition:fade={{ duration: 300 }}
+		class="flex flex-col gap-5 m-10 items-center"
+	>
+		{#each questions as { id, text, type }}
+			<div class="w-5/6 md:w-2/3">
+				{#if type === 'centile'}
+					<label for={id.toString()}>{text}</label>
+					<input type="range" min="1" max="100" bind:value={answers[id]} id={id.toString()} />
+					<span>{answers[id]}</span>
+				{:else if type === 'yesOrNo'}
+					<label for={id.toString()}>{text}</label>
+					<select bind:value={answers[id]} id={id.toString()} class="select">
+						<option value="1">Yes</option>
+						<option value="0">No</option>
+					</select>
+				{/if}
+			</div>
+		{/each}
+		<button type="submit" class="btn variant-filled-primary btn-lg w-60">Submit</button>
+	</form>
+{:else if $stage === 2}
+	<div transition:fade={{ duration: 300 }}>
+		<div class="flex flex-col items-center gap-5 m-10">
+			<h1 class="h1">Results</h1>
+			<h2 class="h2">You are {percentage}% likely to get type 2 diabetes</h2>
 		</div>
-	{/each}
-	<button type="submit">Submit</button>
-</form>
-
-<!-- <script lang="ts">
-	import { sendDataToPython } from '$lib/apiService';
-	import { onMount } from 'svelte';
-
-	let processedData: any[] = [];
-
-	async function processData() {
-		const dataToSend = [1, 2, 3]; // Example data
-		try {
-			const result = await sendDataToPython(dataToSend);
-			processedData = result;
-		} catch (error) {
-			console.error('Error processing data:', error);
-		}
-	}
-
-	onMount(() => {
-		processData();
-	});
-</script>
-
-{#each processedData as item}
-	<div>{item}</div>
-{/each}
- -->
+	</div>
+{/if}
