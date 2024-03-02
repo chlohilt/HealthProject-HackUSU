@@ -26,13 +26,11 @@ con = snowflake.connector.connect(
 # Create a cursor
 cursor = con.cursor()
 
-# Use the specified database
-use_database_query = f'USE DATABASE {snowflake_config["database"]}'
-cursor.execute(use_database_query)
+# Dynamically select the database name from snowflake_config
+database_name = snowflake_config['database']
 
-# Run a SELECT query on the HEALTHWISE360 table
-select_query = 'SELECT * FROM your_schema.HEALTHWISE360 LIMIT 100'
-cursor.execute(select_query)
+# Execute SQL queries with the dynamically selected database name
+cursor.execute(f"SELECT * FROM {database_name}.HEALTHWISE360 LIMIT 100;")
 
 # Fetch results
 results = cursor.fetchall()

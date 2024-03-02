@@ -5,5 +5,5 @@
   "role"      : "TRAINING_ROLE",
   "warehouse" : "_LADYNERDS_WH",
   "database"  : "HEALTHWISE360_CONSUMER_HEALTH_AND_WELLNESS_DATASET.PUBLIC",
-  "schema"    : "INFORMATION_SCHEMA"
+  "schema"    : "PUBLIC"
 }
