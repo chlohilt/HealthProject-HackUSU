@@ -35,11 +35,11 @@ def get_predictors(column_names, rows, trait):
         correlation_coefficient = np.corrcoef(curr_col, curr_trait)[0, 1]
         if np.isnan(correlation_coefficient):
             print("nan", i, j)
-        if abs(correlation_coefficient) > .7:
+        if abs(correlation_coefficient) > .9:
             predictors.append(column)
-        weight = abs(correlation_coefficient)
-        weighted_sum = weight * np.corrcoef([row[i] for row in rows], curr_trait)[0, 1]
-        weighted_sums[column] = weighted_sum
+            # weight = abs(correlation_coefficient)
+            # weighted_sum = weight * np.corrcoef(curr_col, curr_trait)[0, 1]
+            # weighted_sums[column] = weighted_sum
     return predictors
 
 def main():
