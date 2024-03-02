@@ -42,7 +42,7 @@ def get_questions():
 def calculate_percentage():
     answers = request.json['answers']
     print(answers)
-    percentage = interperet_answers(answers, functions, correlation_coefficients)
+    percentage, top_3_answers = interperet_answers(answers, functions, correlation_coefficients)
     return jsonify({"percentage": round(percentage, 2)})
 
 
