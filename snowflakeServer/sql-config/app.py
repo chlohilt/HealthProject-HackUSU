@@ -19,7 +19,7 @@ def get_questions():
 
 
 @app.route('/calculate-percentage', methods=['POST'])
-def get_answers():
+def calculate_percentage():
     answers = request.json['answers']
     percentage = interperet_answers(answers)
     return jsonify({"percentage": round(percentage, 2)})
