@@ -23,14 +23,18 @@ for x in predictors:
 
     question = ''
     type = ''
-    if x[len(x)-1] == 'CENTILE' or x[len(x)-1] == 'RANK':
+    if x[len(x)-1] == 'CENTILE' or x[len(x)-1] == 'METRIC':
         question = 'Rate your ' + result.lower() + ' on a scale from 1 to 100'
         type = 'centile'
     else:
-        question = 'Do you experience ' + result.lower() + '? (Y/N)'
-        type = 'yesOrNo'
+        if x[len(x) - 1] == 'RANK':
+            continue
+        else:
+            question = 'Do you experience ' + result.lower() + '? (Y/N)'
+            type = 'yesOrNo'
 
-    questions.append({"id": items_before_last, "text": question, "type": type})
+    if question != '':
+        questions.append({"id": items_before_last, "text": question, "type": type})
 
 
 @app.route('/get-questions', methods=['GET'])
