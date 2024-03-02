@@ -1,6 +1,5 @@
 import snowflake.connector
 import json
-import get_predictors
 
 # Function to read Snowflake configuration from JSON file
 def read_snowflake_config(file_path):
