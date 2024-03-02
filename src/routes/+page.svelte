@@ -12,6 +12,7 @@
 	let questions: Question[] = [];
 	let answers: { [key: number]: number } = {};
 	let percentage: number;
+	let topFactors: Array<string> = [];
 
 	async function fetchQuestions() {
 		const response = await fetch('http://localhost:5700/get-questions');
@@ -33,6 +34,8 @@
 		});
 		const result = await response.json();
 		percentage = result.percentage;
+		topFactors = result.top_3_list;
+		console.log(topFactors);
 		stage.set(2); // Move to result stage
 	}
 </script>
@@ -72,7 +75,7 @@
 		{#each questions as { id, text, type }}
 			<div class="w-5/6 md:w-2/3">
 				{#if type === 'centile'}
-					<label for={id.toString()} class="mb-2 font-redHat font-medium">{text}</label>
+					<label for={id.toString()} class="mb-2 font-redHat font-medium !not-italic">{text}</label>
 					<input
 						type="range"
 						min="1"
@@ -83,7 +86,7 @@
 					/>
 					<span>{answers[id]}</span>
 				{:else if type === 'yesOrNo'}
-					<label for={id.toString()} class="mb-2 font-redHat font-medium">{text}</label>
+					<label for={id.toString()} class="mb-2 font-redHat font-medium !not-italic">{text}</label>
 					<select bind:value={answers[id]} id={id.toString()} class="select w-28">
 						<option value="1">Yes</option>
 						<option value="0">No</option>
@@ -96,8 +99,20 @@
 {:else if $stage === 2}
 	<div transition:fade={{ duration: 300 }}>
 		<div class="flex flex-col items-center gap-5 m-10">
-			<h1 class="h1 font-redHat">Results</h1>
-			<h2 class="h2 font-redHat">You are {percentage}% likely to get type 2 diabetes</h2>
+			<h1 class="h1 font-redHat !not-italic">Results</h1>
+			<h2 class="h2 font-redHat !not-italic text-center border rounded-lg p-5">
+				You are <span class="font-bold">{percentage}%</span> likely to get Type 2 Diabetes.
+			</h2>
+			<div class="w-2/3 mt-10 flex flex-col gap-5 items-center">
+				<h3 class="text-center h4 font-redHat !not-italic">
+					Your top 3 traits that contribute to your likelihood to suffer from Type 2 Diabetes are:
+				</h3>
+				<ul class="border rounded-lg p-5 w-fit text-left list-decimal list-inside border">
+					{#each topFactors as factor}
+						<li class="lowercase font-semibold text-lg">{factor}</li>
+					{/each}
+				</ul>
+			</div>
 		</div>
 	</div>
 {/if}

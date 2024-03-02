@@ -12,7 +12,7 @@
 				<a href="/"><strong class="text-xl uppercase">WELLNESS WIZARD</strong></a>
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
-				<p class="font-redHat font-semibold">Contributors:</p>
+				<p class="font-redHat font-semibold hidden md:block">Contributors:</p>
 				<a
 					class="btn btn-sm variant-ghost-surface"
 					href="https://www.linkedin.com/in/chloe-hilton-720016204/"
