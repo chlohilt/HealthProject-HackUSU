@@ -8,7 +8,7 @@ def interperet_answers(responses, correlation_functions, correlation_coefficient
 
     weighted_values = []
     for i in range(len(answers)):
-        value = correlation_functions[i](answers[i])
+        value = correlation_functions[i](int(answers[i]))
         if value > 100:
             value = 100
         elif value < 0:
@@ -19,4 +19,4 @@ def interperet_answers(responses, correlation_functions, correlation_coefficient
     sorted_list = sorted(weighted_values, reverse=True)
     top_3_values = sorted_list[:3]
     top_3_answers = [questions[weighted_values.index(value)] for value in top_3_values]
-    return sum / len(answers)
+    return (sum / len(answers), top_3_answers)
