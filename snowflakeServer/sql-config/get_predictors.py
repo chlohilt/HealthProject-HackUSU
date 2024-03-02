@@ -31,10 +31,10 @@ def get_predictors(column_names, rows, trait):
                 curr_trait.pop(j - values_popped)
                 values_popped += 1
                 continue
-            elif curr_val == 'Y' or curr_val == "F":
+            elif curr_val == 'Y':
                 curr_val = 1
                 curr_col.append(curr_val)
-            elif curr_val == 'N' or curr_val == "M":
+            elif curr_val == 'N'::
                 curr_val = 0
                 curr_col.append(curr_val)
             else:
