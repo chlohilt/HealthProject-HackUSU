@@ -5,7 +5,8 @@ from get_data import connect_to_snowflake
 from interperet_answers import interperet_answers
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, origins="*")
+CORS(app, origins='*')
 
 predictors, functions, correlation_coefficients = get_predictors(*connect_to_snowflake())
 
