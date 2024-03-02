@@ -33,7 +33,7 @@ def connect_to_snowflake():
     database_name = snowflake_config['database']
     table1_name = snowflake_config['table']
 
-    trait_column = "HWD_ALZHEIMERS_CENTILE_V7" #"HWD_DIABETES_TYPE_2_CENTILE_V7" 
+    trait_column = "HWD_DIABETES_TYPE_2_CENTILE_V7" 
 
     # Execute SQL queries with the dynamically selected database name
     cursor.execute(f"SHOW COLUMNS IN TABLE {database_name}.{table1_name}")
