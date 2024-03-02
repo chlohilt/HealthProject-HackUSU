@@ -34,7 +34,7 @@ def get_predictors(column_names, rows, trait):
             elif curr_val == 'Y':
                 curr_val = 1
                 curr_col.append(curr_val)
-            elif curr_val == 'N'::
+            elif curr_val == 'N':
                 curr_val = 0
                 curr_col.append(curr_val)
             else:
