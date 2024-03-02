@@ -11,5 +11,5 @@ vite.config.ts.timestamp-*
 /snowflakeServer/sql-config/connection.json
 /snowflakeServer/sql-config/__pycache__/get_data.cpython-311.pyc
 /snowflakeServer/sql-config/__pycache__/get_predictors.cpython-311.pyc
-snowflakeServer/sql-config/__pycache__/get_data.cpython-311.pyc
-snowflakeServer/sql-config/__pycache__/get_predictors.cpython-311.pyc
+/snowflakeServer/sql-config/__pycache__/interperet_answers.cpython-311.pyc
+/snowflakeServer/sql-config/__pycache
