@@ -24,6 +24,7 @@
 			},
 			body: JSON.stringify({ answers })
 		});
+		console.log(answers);
 		const result = await response.json();
 		alert(`Your score is: ${result.percentage}%`);
 	}
