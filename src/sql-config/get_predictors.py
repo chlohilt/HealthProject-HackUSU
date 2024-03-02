@@ -9,7 +9,7 @@ def get_predictors(column_names, rows, trait):
     for i in range(len(column_names)):
         column = column_names[i]
         # check that we're not comparing the trait to itself
-        if column == trait:
+        if column == trait or column == "PID":
             continue
         curr_col = []
         for row in rows:
@@ -31,8 +31,10 @@ def get_predictors(column_names, rows, trait):
             predictors.append(column)
     return predictors
 
-test_columns = ["obesity", "exercise"]
-test_rows = [(10, 2), (2, 7), (3, 5), (3, 6)]
-    
+def main():
+    test_columns = ["obesity", "exercise"]
+    test_rows = [(10, 2), (2, 7), (3, 5), (3, 6)]
+    print(get_predictors(test_columns, test_rows, "obesity"))
 
-print(get_predictors(test_columns, test_rows, "obesity"))
+if __name__ == "__main__":
+    main()
