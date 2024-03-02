@@ -1,4 +1,5 @@
 import numpy as np
+from scipy.stats import pearsonr
 
 bad_columns = ["HWD_WELLTH_GENERATION_CODE_V7", "HWD_WELLTH_ABILITY_TO_PAY_V7", "HWD_WELLTH_V7"]
 
@@ -14,6 +15,8 @@ def get_predictors(column_names, rows, trait):
         curr_trait = [row[column_names.index(trait)] for row in rows]
         values_popped = 0
         column = column_names[i]
+        if column == "AGE":
+            pass
         if column in bad_columns:
             continue
         # check that we're not comparing the trait to itself
@@ -21,8 +24,10 @@ def get_predictors(column_names, rows, trait):
             continue
         curr_col = []
         for j in range(len(rows)):
+            if j == 93:
+                pass
             curr_val = rows[j][i]
-            if curr_val is None:
+            if curr_val is None or curr_val == "X":
                 curr_trait.pop(j - values_popped)
                 values_popped += 1
                 continue
@@ -38,10 +43,10 @@ def get_predictors(column_names, rows, trait):
         if len(curr_col) <= 1 or np.std(curr_trait) == 0:
             bad_columns.append(column)
             continue
-        correlation_coefficient = np.corrcoef(curr_col, curr_trait)[0, 1]
+        correlation_coefficient, p_value = pearsonr(curr_col, curr_trait)
         if np.isnan(correlation_coefficient):
             print("nan", i, j)
-        if abs(correlation_coefficient) > .9:
+        if abs(correlation_coefficient) > .8 and p_value < 0.05:
             predictors.append(column)
             correlation_coefficients.append(correlation_coefficient)
             line_of_best_fit = np.polyfit(curr_col, curr_trait, 1)
@@ -52,7 +57,7 @@ def get_predictors(column_names, rows, trait):
 def main():
     test_columns = ["obesity", "exercise"]
     test_rows = [(10, 2), (2, 5), (3, 5), (3, 4)]
-    predictors, functions = get_predictors(test_columns, test_rows, "obesity")
+    predictors, functions, ccs = get_predictors(test_columns, test_rows, "obesity")
     print(predictors)
     print(functions[0](2))
 if __name__ == "__main__":

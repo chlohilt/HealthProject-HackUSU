@@ -31,10 +31,9 @@ def connect_to_snowflake():
 
     # Dynamically select the database name from snowflake_config
     database_name = snowflake_config['database']
-    table1_name = snowflake_config['table1']
-    table2_name = snowflake_config['table2']
+    table1_name = snowflake_config['table']
 
-    trait_column = "HWD_ALZHEIMERS_QUINTILE_V7" "HWD_DIABETES_TYPE_2_CENTILE_V7"
+    trait_column = "HWD_ALZHEIMERS_CENTILE_V7" #"HWD_DIABETES_TYPE_2_CENTILE_V7" 
 
     # Execute SQL queries with the dynamically selected database name
     cursor.execute(f"SHOW COLUMNS IN TABLE {database_name}.{table1_name}")
@@ -42,14 +41,7 @@ def connect_to_snowflake():
     column_names = [column[2] for column in columns]
     cursor.execute(f"SELECT * FROM {database_name}.{table1_name} WHERE {trait_column} IS NOT NULL;")
     # Fetch results
-    results1 = cursor.fetchall()
-    
-    cursor.execute(f"SHOW COLUMNS IN TABLE {database_name}.{table2_name}")
-    columns += cursor.fetchall()
-    cursor.execute(f"SELECT GENDER, AGE, CENSPCT_WATER FROM {database_name}.{table2_name};")
-    results2 = cursor.fetchall()
-
-    results = [results1[i] + results2[i] for i in range(len(results1))]
+    results = cursor.fetchall()
 
     # Close the cursor and connection
     cursor.close()
