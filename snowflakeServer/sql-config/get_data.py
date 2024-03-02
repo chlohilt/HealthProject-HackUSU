@@ -1,6 +1,5 @@
 import snowflake.connector
 import json
-import get_predictors
 
 # Function to read Snowflake configuration from JSON file
 def read_snowflake_config(file_path):
@@ -45,8 +44,4 @@ def connect_to_snowflake():
     cursor.close()
     con.close()
 
-    predictors, functions, correlation_coefficients = get_predictors.get_predictors(column_names, results, "HWD_DIABETES_TYPE_2_CENTILE_V7")
-
     return column_names, results, "HWD_DIABETES_TYPE_2_CENTILE_V7"
-
-connect_to_snowflake()
