@@ -4,18 +4,24 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
+# Sample questions; in practice, these might come from a database or another data source.
+questions = [
+    {"id": 1, "text": "How confident are you in your problem-solving skills?"},
+    {"id": 2, "text": "Rate your communication skills."},
+    {"id": 3, "text": "How would you rate your teamwork abilities?"}
+]
 
-@app.route('/api/process-data', methods=['POST'])
-def process_data():
-    data = request.json
-    # Convert JSON array to Python list
-    data_list = list(data)
-    
-    # Process the list here (edit as needed)
-    processed_list = [x * 2 for x in data_list]  # Example processing
-    
-    # Convert list back to JSON array and return
-    return jsonify(processed_list)
+@app.route('/get-questions', methods=['GET'])
+def get_questions():
+    return jsonify(questions)
+
+@app.route('/calculate-percentage', methods=['POST'])
+def calculate_percentage():
+    answers = request.json['answers']
+    total_score = sum(answers.values())
+    max_score = len(answers) * 10
+    percentage = (total_score / max_score) * 100
+    return jsonify({"percentage": round(percentage, 2)})
 
 if __name__ == '__main__':
     app.run(debug=True, port=5700)
