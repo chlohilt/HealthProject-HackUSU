@@ -1,6 +1,9 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
+
+from interperet_answers import interperet_answers
+
 app = Flask(__name__)
 CORS(app)
 
@@ -16,11 +19,9 @@ def get_questions():
 
 
 @app.route('/calculate-percentage', methods=['POST'])
-def calculate_percentage():
+def get_answers():
     answers = request.json['answers']
-    total_score = sum(answers.values())
-    max_score = len(answers) * 10
-    percentage = (total_score / max_score) * 100
+    percentage = interperet_answers(answers)
     return jsonify({"percentage": round(percentage, 2)})
 
 
