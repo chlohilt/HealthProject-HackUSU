@@ -5,7 +5,7 @@ def get_predictors(column_names, rows, trait):
     # rows: list of tuples, each index within the tuples correlates to the column name at the same index
     # trait: string that matches a column name. This is the trait we are focusing on and looking for predictors of
     curr_trait = [row[column_names.index(trait)] for row in rows]
-    predictors = []
+    predictors = {}
     for i in range(len(column_names)):
         column = column_names[i]
         # check that we're not comparing the trait to itself
@@ -13,19 +13,19 @@ def get_predictors(column_names, rows, trait):
             continue
         curr_col = []
         for row in rows:
-            try:
-                curr_val = int(row[i])
+            curr_val = row[i]
+            if curr_val == None:
+                curr_trait.pop(i)
+                continue
+            elif curr_val == 'Y':
+                curr_val = 1
                 curr_col.append(curr_val)
-            except ValueError:
-                # if the value is NULL, it can't be compared
-                if curr_val == None:
-                    curr_trait.pop(i)
-                elif curr_val == 'Y':
-                    curr_val = 1
-                    curr_col.append(curr_val)
-                elif curr_val == 'N':
-                    curr_val = 0
-                    curr_col.append(curr_val)
+            elif curr_val == 'N':
+                curr_val = 0
+                curr_col.append(curr_val)
+            else:
+                curr_val = int(curr_val)
+                curr_col.append(curr_val)
         correlation_coefficient = np.corrcoef(curr_col, curr_trait)[0, 1]
         if abs(correlation_coefficient) > .7:
             predictors.append(f"column")
