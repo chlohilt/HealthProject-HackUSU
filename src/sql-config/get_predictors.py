@@ -4,18 +4,20 @@ def get_predictors(column_names, rows, trait):
     # column_names: list of column names from the table
     # rows: list of tuples, each index within the tuples correlates to the column name at the same index
     # trait: string that matches a column name. This is the trait we are focusing on and looking for predictors of
-    curr_trait = [row[column_names.index(trait)] for row in rows]
     predictors = []
     for i in range(len(column_names)):
+        curr_trait = [row[column_names.index(trait)] for row in rows]
+        values_popped = 0
         column = column_names[i]
         # check that we're not comparing the trait to itself
         if column == trait or column == "PID":
             continue
         curr_col = []
-        for row in rows:
-            curr_val = row[i]
+        for j in range(len(rows)):
+            curr_val = rows[j][i]
             if curr_val is None:
-                curr_trait.pop(i)
+                curr_trait.pop(j - values_popped)
+                values_popped += 1
                 continue
             elif curr_val == 'Y':
                 curr_val = 1
@@ -27,6 +29,8 @@ def get_predictors(column_names, rows, trait):
                 curr_val = int(curr_val)
                 curr_col.append(curr_val)
         correlation_coefficient = np.corrcoef(curr_col, curr_trait)[0, 1]
+        if np.isnan(correlation_coefficient):
+            print("nan", i, j)
         if abs(correlation_coefficient) > .7:
             predictors.append(column)
     return predictors
