@@ -1,5 +1,7 @@
 import numpy as np
 
+bad_columns = ["HWD_WELLTH_GENERATION_CODE_V7", "HWD_WELLTH_ABILITY_TO_PAY_V7", "HWD_WELLTH_V7"]
+
 def get_predictors(column_names, rows, trait):
     # column_names: list of column names from the table
     # rows: list of tuples, each index within the tuples correlates to the column name at the same index
@@ -11,7 +13,7 @@ def get_predictors(column_names, rows, trait):
         curr_trait = [row[column_names.index(trait)] for row in rows]
         values_popped = 0
         column = column_names[i]
-        if (column == "HWD_WELLTH_GENERATION_CODE_V7" or column == "HWD_WELLTH_ABILITY_TO_PAY_V7" or column == "HWD_WELLTH_V7"):
+        if column in bad_columns:
             continue
         # check that we're not comparing the trait to itself
         if column == trait or column == "PID":
@@ -32,14 +34,17 @@ def get_predictors(column_names, rows, trait):
             else:
                 curr_val = int(curr_val)
                 curr_col.append(curr_val)
+        if len(curr_col) <= 1 or np.std(curr_trait) == 0:
+            bad_columns.append(column)
+            continue
         correlation_coefficient = np.corrcoef(curr_col, curr_trait)[0, 1]
         if np.isnan(correlation_coefficient):
             print("nan", i, j)
-        if abs(correlation_coefficient) > .7:
+        if abs(correlation_coefficient) > .9:
             predictors.append(column)
-        weight = abs(correlation_coefficient)
-        weighted_sum = weight * np.corrcoef([row[i] for row in rows], curr_trait)[0, 1]
-        weighted_sums[column] = weighted_sum
+            # weight = abs(correlation_coefficient)
+            # weighted_sum = weight * np.corrcoef([row[i] for row in rows], curr_trait)[0, 1]
+            # weighted_sums[column] = weighted_sum
     return predictors
 
 def main():

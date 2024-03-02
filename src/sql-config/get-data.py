@@ -45,7 +45,7 @@ def connect_to_snowflake():
     cursor.close()
     con.close()
 
-    get_predictors.get_predictors(column_names, results, "HWD_DIABETES_TYPE_2_CENTILE_V7")
+    print(get_predictors.get_predictors(column_names, results, "HWD_DIABETES_TYPE_2_CENTILE_V7"))
 
     return column_names, results, "HWD_DIABETES_TYPE_2_CENTILE_V7"
 
