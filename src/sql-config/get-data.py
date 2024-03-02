@@ -37,9 +37,7 @@ def connect_to_snowflake():
     cursor.execute(f"SHOW COLUMNS IN TABLE {database_name}.{table_name}")
     columns = cursor.fetchall()
     column_names = [column[2] for column in columns]
-    print(column_names)
     cursor.execute(f"SELECT * FROM {database_name}.{table_name} WHERE HWD_DIABETES_TYPE_2_CENTILE_V7 IS NOT NULL;")
-
     # Fetch results
     results = cursor.fetchall()
 
